@@ -130,11 +130,24 @@ resources:
     #   Type: AWS::DynamoDB::Table
     #   Properties:
 
-    # TODO: Complete the bucket properties below. 
-    # Do not forget to add the CorsConfiguration property
-    # AttachmentsBucket:
-    #   Type: AWS::S3::Bucket
-    #   Properties:
+    AttachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.ATTACHMENT_S3_BUCKET} 
+        CorsConfiguration:
+          CorsRules:
+            - 
+              AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 300
 
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
