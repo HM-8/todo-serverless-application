@@ -104,9 +104,12 @@ functions:
           path: todos
           cors: true
           authorizer: Auth
-          request:
-            schemas:
-              application/json: ${file(models/create-todo-model.json)}
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create a new todo task
+            description: Create a todo task
+            requestModels:
+              'application/json': CreateTodoRequest
     iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-create-todo-role-${self:provider.stage}
     iamRoleStatements:
       - Effect: Allow
@@ -169,6 +172,15 @@ resources:
         ResponseType: DEFAULT_5XX
         RestApiId:
           Ref: 'ApiGatewayRestApi'
+
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId: 
+          Ref: ApiGatewayRestApi 
+        ValidateRequestBody: true
+        ValidateRequestParameters: false
     
     TodosTable:
       Type: AWS::DynamoDB::Table
