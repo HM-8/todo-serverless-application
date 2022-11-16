@@ -22,8 +22,6 @@ provider:
     lambda: true
     apiGateway: true
 
-  # Use these variables in the functions and resources section below. For example, 
-  # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
   environment:
     TODOS_TABLE: Serverless-todo-app-1-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
@@ -33,7 +31,6 @@ provider:
     INDEX_NAME: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
 
   logs:
-    # Enable API Gateway logs
     restApi: true
 
   iam:
