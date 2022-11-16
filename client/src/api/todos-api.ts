@@ -40,6 +40,8 @@ export async function patchTodo(
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
     }
+  }).catch(err => {
+    console.log(err)
   })
 }
 
