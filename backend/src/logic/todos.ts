@@ -37,4 +37,17 @@ export async function getTodosForUser(userId: string): Promise<TodoItem[]> {
   return await todosAccess.getTodosForUser(userId)
 }
 
+export async function updateTodo(
+    userId: string,
+    todoId: string,
+    updatedTodo: UpdateTodoRequest
+    ): Promise<TodoUpdate> {
+    logger.info('Updating todo', todoId)
+    try {
+      const todo = todosAccess.updateTodoItem(userId, todoId, updatedTodo)
+      return todo
+    } catch (error) {
+      logger.error('Error updating todo in logic', error) 
+    }
+}
 

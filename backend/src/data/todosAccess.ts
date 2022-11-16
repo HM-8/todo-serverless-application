@@ -38,7 +38,39 @@ export class TodosAccess {
             }
         }).promise()
         logger.info('getTodosForUser result', result)
-        return  result.Items as TodoItem[];
+  async updateTodoItem(
+    userId: string,
+    todoId: string,
+    updatedTodo: TodoUpdate
+  ): Promise<TodoUpdate> {
+    logger.info('updateTodoItem data access')
+
+    try {
+      const result = await this.docClient
+        .update({
+          TableName: this.todosTable,
+          Key: {
+            userId,
+            todoId
+          },
+          UpdateExpression:
+            'set #name = :name, dueDate = :dueDate, done = :done',
+          ExpressionAttributeValues: {
+            ':name': updatedTodo.name,
+            ':dueDate': updatedTodo.dueDate,
+            ':done': updatedTodo.done
+          },
+          ExpressionAttributeNames: {
+            '#name': 'name'
+          },
+          ReturnValues: 'UPDATED_NEW'
+        })
+        .promise()
+      const updatedTodoItem = result.Attributes
+      logger.info('updateTodoItem result', result)
+      return updatedTodoItem as TodoUpdate
+    } catch (error) {
+      logger.error('updateTodoItem data access', error)
     }
 }
 
